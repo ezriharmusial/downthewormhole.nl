@@ -2,22 +2,7 @@
 
 /** Import everything from autoload */
 @import "../../node_modules/bulma-timeline/src/sass/index.sass";
-// @import "../../node_modules/bulma/bulma.sass";
 
-/**
- * Import npm dependencies
- *
- * Prefix your imports with `~` to grab from node_modules/
- * @see https://github.com/webpack-contrib/sass-loader#imports
- */
-// @import "~some-node-module";
-
-/** Import theme styles */
-@import "common/global";
-@import "components/buttons";
-@import "components/forms";
-@import "components/navbar";
-@import "components/tabs";
-@import "layouts/header";
-@import "layouts/sidebar";
-@import "layouts/footer";
+.timeline.is-centered .timeline-item:nth-of-type(2n) .timeline-content {
+  text-align: left;
+}
