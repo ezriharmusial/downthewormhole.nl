@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/SkillsLayout.astro
 date: 2023-02-22T15:52:11.849Z
-updatedDate: 2023-23-16T03:52:11.849Z
+updatedDate: 2023-02-23T03:52:11.849Z
 index: 1
 size: is-fullheight
 title: Mijn Skillset
