@@ -1,0 +1,144 @@
+---
+import '@skeletonlabs/skeleton/themes/theme-modern.css';
+import '@skeletonlabs/skeleton/styles/all.css'
+// import '../styles/theme.css';
+import '../styles/base.css';
+import '../styles/main.scss';
+
+import { getCollection } from 'astro:content';
+import { AppShell, AppBar, LightSwitch } from '@skeletonlabs/skeleton'
+import { PageTransition } from 'astro-page-transition';
+import { Icon } from 'astro-icon'
+
+import SEO from '../components/SEO.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Search from '../components/ux/Search.svelte';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+
+export let frontmatter
+
+const response = await fetch(Astro.url.origin + '/api/v1/pages.json');
+const data = await response.json();
+const pageList = await getCollection('pages');
+
+const { index, title, shorttitle, subtitle, image, description  } = frontmatter || Astro.props.frontmatter || Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+	<SEO description{description || subtitle} {title} {image} />
+</head>
+<body data-theme="theme-modern">
+	<slot name="extendedHead" />
+
+	<!-- Page Transition -->
+	<PageTransition speed={500} color={"orange"} zIndex={99} />
+	<div style="display: contents" class="h-full overflow-hidden">
+
+        <AppShell slotSidebarLeft="backdrop-brightness-50 backdrop-blur w-28 text-center p-4" slotHeader="fixed backdrop-brightness-75 backdrop-blur top-0 left-28 right-0 z-10">
+            <svelte:fragment slot="header">
+                <AppBar background="bg-transparent" slotLead="bg-black">
+                <svelte:fragment slot="lead">
+                    <a href="/" class="bg-black">
+                        <span class="flex p-2">
+                            <span class="flex flex-col font-bold uppercase space-y-0">
+                                <span class="text-xs translate-y-1">Down</span>
+                                <span class="text-xl -translate-y-1">The</span>
+                            </span>
+                            <span class="text-base md:text-4xl pl-1 font-bold uppercase">W<img src="/images/ring.webp" class="w-7 h-7 -translate-y-1 inline"/>rmhole</span>
+                        </span>
+                    </a>
+                </svelte:fragment>
+
+
+                <svelte:fragment slot="trail">
+                    <div class="flex items-center space-x-6">
+                        <Header title={SITE_TITLE} />
+                        <a>
+                        <!-- <Search {data} client:load /> -->
+                        </a>
+                        <a>
+                        <LightSwitch client:load />
+                        </a>
+                    </div>
+                </svelte:fragment>
+                </AppBar>
+            </svelte:fragment>
+            <svelte:fragment slot="sidebarLeft">
+                <nav class="list-nav text-sm text-center">
+                    <ul>
+                        <li>
+                            <a href="/" class="bg-black hover:bg-black">
+                                <span class="flex-auto text-center items-center justify-items-center justify-self-center">
+                                    <img src="/images/ring.webp" class="w-10 rounded-full" />
+                                    <span>Home</span>
+                                </span>
+                            </a>
+                        </li>
+                        <slot name="sidebarLeftNavList">
+                        {pageList && pageList.map(page => (
+                            <li>
+                                <a href={"/" + page.slug} >
+                                    <span class="flex-auto">
+                                        <Icon pack="ph" name={page.data.icon || "facebook-official"} class="w-10 rounded-full" />
+                                        <span>{page.data.shorttitle}</span>
+                                    </span>
+                                </a>
+                            </li>
+                        ))}
+                        </slot>
+                    </ul>
+                </nav>
+            </svelte:fragment>
+
+            <div class="space-y-8">
+                <slot />
+            </div>
+
+            <svelte:fragment slot="pageFooter">
+                <div class="flex gap-4 m-8">
+                    <slot name="pageList">
+
+                    <div class="card p-4 space-y-2 w-full">
+                    <h3 class="font-bold">Pagina's</h3>
+                    <ul class="list">
+                        <li class="list">
+                            <a href={"/"}>
+                                <span class="flex items-center">
+                                    <Icon pack="ph" name="house-line-thin" class="w-6 h-6 mr-2"/>
+                                    <span>
+                                        Home
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+                    {pageList && pageList.map(page => (
+                        <li class="list">
+                            <a href={"/" + page.slug}>
+                                <span class="flex">
+                                    <Icon pack="ph" name={page.data.icon} class="w-6 h-6 mr-2" />
+                                    <span>
+                                        {page.data.title}
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+                    ))}
+                    </ul>
+                    </div>
+                </div>
+                </slot>
+
+                <Footer />
+            </svelte:fragment>
+        </AppShell>
+	</div>
+    <!-- Service Worker -->
+    <script src="/src/index.ts"></script>
+	<!-- Netlify Identiy widget -->
+	<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js"></script>
+</body>
+</html>

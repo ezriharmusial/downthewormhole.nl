@@ -1,0 +1,82 @@
+---
+import { getCollection } from 'astro:content';
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+import Images from "../components/cards/Images.astro";
+import Videos from "../components/cards/Videos.astro";
+import HeroFormLight from "../components/headers/HeroFormLight.astro";
+import HeroVideoDark from "../components/headers/HeroVideoDark.astro";
+import ExampleContent from '../components/content/ExampleContent.astro';
+
+export async function getStaticPaths() {
+	const sitePages = await getCollection('pages');
+
+	return sitePages.map(page => {
+
+		return {
+			params: { slug: page.slug },
+			props: { page }
+		}
+	});
+}
+
+const sitePages = await getCollection('pages');
+
+
+import { getEntryBySlug } from 'astro:content';
+import Share from '~components/ux/Share.astro';
+import FormattedDate from '~components/FormattedDate.astro';
+// 1. Get the slug from the incoming server request
+const { slug } = Astro.params;
+// 2. Query for the entry directly using the request slug
+const entry = await getEntryBySlug('pages', slug);
+const { Content } = await entry?.render() || false;
+---
+<BaseLayout>
+	<!-- Section: Design Block -->
+	<section class="mb-30 overflow-hidden">
+		<div class="relative overflow-hidden bg-no-repeat bg-cover h-96" style={"background-position: 50%; background-image: url('" + (entry?.data.image || "https://i.gifer.com/origin/7c/7c099f7856e61bd0f216994789379228.gif") + "');"}>
+			<div class="absolute top-0 right-0 bottom-0 left-0 pt-2 w-full h-full overflow-hidden bg-fixed" style="background-color: rgba(0, 0, 0, 0.75);">
+				<div class="flex justify-center items-center h-full">
+					<div class="text-center text-white px-6 md:px-12">
+						<h1 class="text-5xl md:text-6xl xl:text-7xl font-bold tracking-tight mb-1">
+							{entry?.data.title}</h1>
+							<h2>{entry?.data.subtitle}</h2>
+							<div class="text-sm">
+
+								{
+									entry?.data.date &&
+									<span>Gepubliceerd op: <FormattedDate date={entry?.data.date} /></span>
+								}
+								{
+									entry?.data.updatedDate &&
+									<span class="last-updated-on">
+										Bijgewerkt op: <FormattedDate date={entry?.data.updatedDate} />
+									</span>
+								}
+							</div>
+							<hr />
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="-mt-2.5 md:-mt-4 lg:-mt-6 xl:-mt-10 light:fill-surface-50 dark:fill-surface-900" style="height: 50px; transform: scale(2); transform-origin: top center;">
+				<svg viewBox="0 0 2880 48" xmlns="http://www.w3.org/2000/svg">
+					<path d="M 0 48 L 1437.5 48 L 2880 48 L 2880 0 L 2160 0 C 1453.324 60.118 726.013 4.51 720 0 L 0 0 L 0 48 Z"></path>
+				</svg>
+			</div>
+		</section>
+		<!-- Section: Design Block -->
+
+		<article class="container mx-auto space-y-8 p-8">
+			{Content &&
+				<Content />
+				<hr />
+			}
+			<section class="flex space-x-2">
+				<Share entry={entry} />
+			</section>
+		</article>
+	</BaseLayout>

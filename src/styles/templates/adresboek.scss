@@ -1,0 +1,53 @@
+body.adresboek {
+  /* APP LAYOUT STYLES */
+  .list-view,
+  .detail-view {
+    padding: 0 !important;
+  }
+
+  .adres a {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    flex-grow: 0 !important;
+
+    &:not(.is-info):hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  .placeholder {
+    animation: colorchange 1s;
+    animation-iteration-count: infinite;
+    color: transparent;
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  .notification:not(:last-child) {
+    margin-bottom: 0 !important;
+  }
+
+  #map iframe {
+    width: 100%;
+  }
+
+  /* APP TABLET & DESKTOP STYLES */
+  @media screen and (min-width: 767px) {
+    .detail-view {
+      width: 20%;
+    }
+  }
+
+  @media screen and (min-width: 1023px) {
+    .detail-view {
+      width: 40%;
+    }
+  }
+}
+
+@keyframes colorchange {
+  50% { background: rgba(111, 111, 111, 0.1); }
+  100% { background: rgba(0, 0, 0, 0.1); }
+}

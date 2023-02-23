@@ -1,0 +1,69 @@
+/** Colors */
+$primary:               #27ae60;
+
+// Import Bulma's initial variables
+@import "../../../node_modules/bulma/sass/utilities/initial-variables.sass";
+@import "../../../node_modules/bulma/sass/utilities/functions.sass";
+
+/** Colors */
+$primary: $red;
+$secondary: #27ae60 !default;
+$danger: $red;
+$warning: $yellow;
+$success: $green;
+$calm: #63bda1 !default;
+$info: $cyan;
+$light: $grey-lighter;
+$dark: $grey-dark;
+
+$secondary-invert: $black !default;
+$calm-invert: $white !default;
+
+/** Link colors */
+$link: $primary;
+
+/** Box Model */
+$spacer: 2rem;
+
+/** Body */
+$body-background-color: $grey-darker;
+$body-color: $grey-lighter;
+$body-size: 16px;
+
+$title-color: $white-ter;
+$subtitle-color: $grey-lighter;
+
+$border: $grey-darker;
+
+/** Progress Bar */
+// $progress-bar-background-color
+
+/** Form */
+$label-color: $primary;
+
+/** Table */
+$table-background-color: transparent;
+
+/** Table */
+$card-background-color: $dark;
+$card-header-color: $white-ter;
+$card-color: $grey-lighter;
+
+@import "../../../node_modules/bulma/sass/utilities/derived-variables.sass";
+@import "../../../node_modules/bulma/sass/base/animations.sass";
+@import "../../../node_modules/bulma/sass/utilities/mixins.sass";
+@import "../../../node_modules/bulma/sass/utilities/controls.sass";
+
+/** Tabs */
+$tabs-boxed-link-active-background-color: $dark;
+
+/** Create Colors */
+$colors: map-merge(
+  (
+    "secondary": ($secondary,
+    $secondary-invert),
+    "calm": ($calm,
+    $calm-invert),
+  ),
+  $colors
+);
